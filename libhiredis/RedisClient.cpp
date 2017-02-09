@@ -42,6 +42,11 @@ RedisReply RedisClient::Get(const std::string & key)
 	return Send("GET", vec);
 }
 
+std::string RedisClient::BuildCommand(std::string && cmd, const std::vector<std::string>& vecParam)
+{
+    return std::string();
+}
+
 RedisReply RedisClient::Send(std::string && cmd, const std::vector<std::string>& vecParam)
 {
 	for (auto& item : vecParam)

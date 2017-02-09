@@ -5,6 +5,7 @@
 #include "../libhiredis/src/hiredis.h"
 #include "../libhiredis/RedisClient.h"
 #include "../libhiredis/RedisReply.h"
+#include "../libhiredis/RedisCommand.h"
 #include <iostream>
 // Link with ws2_32.lib
 #pragma comment(lib, "Ws2_32.lib")
@@ -105,7 +106,8 @@ void case02(const char* host, int port, struct timeval tv)
 }
 
 int main(int argc, char **argv) {
-	const char *hostname = (argc > 1) ? argv[1] : "192.168.0.105";
+	// const char *hostname = (argc > 1) ? argv[1] : "192.168.0.105";
+    const char *hostname = (argc > 1) ? argv[1] : "127.0.0.1";
     int port = (argc > 2) ? atoi(argv[2]) : 6379;
     struct timeval timeout = { 1, 500000 }; // 1.5 seconds
 

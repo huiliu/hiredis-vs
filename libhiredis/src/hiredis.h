@@ -39,7 +39,7 @@ extern "C" {
 
 #include "read.h"
 #include <stdarg.h> /* for va_list */
-#ifndef WIN32
+#ifndef _MSC_VER
 #include <sys/time.h> /* for struct timeval */
 #else
 #include <WinSock2.h>/* for struct timeval */

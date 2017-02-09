@@ -13,17 +13,17 @@ RedisReply::~RedisReply()
 	}
 }
 
-int RedisReply::GetInt() const
+int RedisReply::AsInt() const
 {
 	return m_pReply->integer;
 }
 
-std::string RedisReply::GetString() const
+std::string RedisReply::AsString() const
 {
 	return m_pReply->str;
 }
 
-std::vector<std::string> RedisReply::GetArray() const
+std::vector<std::string> RedisReply::AsArray() const
 {
 	std::vector<std::string> vecReply;
 	for (size_t i = 0; i < m_pReply->elements; i++)

@@ -10,9 +10,9 @@ public:
 	~RedisReply();
 
 public:
-	int			GetInt() const;
-	std::string GetString() const;
-	std::vector<std::string> GetArray() const;
+	int			AsInt() const;
+	std::string AsString() const;
+	std::vector<std::string> AsArray() const;
 
 
 private:

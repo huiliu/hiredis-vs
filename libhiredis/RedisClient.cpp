@@ -3,53 +3,52 @@
 #include <cassert>
 
 RedisClient::RedisClient()
-	: m_pConn(nullptr)
 {
 }
 
 RedisClient::~RedisClient()
 {
-	if (nullptr != m_pConn)
-	{
-		redisFree(m_pConn);
-	}
 }
 
-int RedisClient::Connect(const std::string & host, int port, timeval timeout)
+int RedisClient::Connect(const String & host, int port, timeval timeout)
 {
-	m_pConn = redisConnectWithTimeout(host.data(), port, timeout);
-	assert(nullptr != m_pConn);
+	redisContext* p = redisConnectWithTimeout(host.data(), port, timeout);
+	assert(nullptr != p);
+    m_spConn.reset(p, destruct_redis_context);
 	return 0;
 }
 
 void RedisClient::Close()
 {
-	if (nullptr != m_pConn)
-	{
-		redisFree(m_pConn);
-	}
+    m_spConn.reset();
 }
 
-RedisReply RedisClient::Set(const std::string & key, const std::string & val)
+bool RedisClient::Ping()
 {
-	std::vector<std::string> vec{ key, val };
+    RedisReply reply = Send("PING", StringVec());
+    return "PONG" == reply.AsString();
+}
+
+RedisReply RedisClient::Set(const String & key, const String & val)
+{
+	std::vector<String> vec{ key, val };
 	return Send("SET", vec);
 }
 
-RedisReply RedisClient::Get(const std::string & key)
+RedisReply RedisClient::Get(const String & key)
 {
-	std::vector<std::string> vec{ key };
+	std::vector<String> vec{ key };
 	return Send("GET", vec);
 }
 
-std::string RedisClient::BuildCommand(std::string && cmd, const std::vector<std::string>& vecParam)
+String RedisClient::BuildCommand(String && cmd, const StringVec& vecParam)
 {
-    return std::string();
+    return String();
 }
 
-RedisReply RedisClient::Send(std::string && cmd, const std::vector<std::string>& vecParam)
+RedisReply RedisClient::Send(String && cmd, const StringVec& vecParam)
 {
 	for (auto& item : vecParam)
 		cmd += " " + item;
-	return RedisReply(static_cast<redisReply*>(redisCommand(m_pConn, cmd.data())));
+	return RedisReply(static_cast<redisReply*>(redisCommand(m_spConn.get(), cmd.data())));
 }

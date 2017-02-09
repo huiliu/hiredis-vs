@@ -13,6 +13,22 @@ RedisReply::~RedisReply()
 	}
 }
 
+RedisReply::RedisReply(RedisReply && rhs)
+{
+    freeReplyObject(m_pReply);
+    m_pReply = rhs.m_pReply;
+    rhs.m_pReply = nullptr;
+}
+
+RedisReply& RedisReply::operator=(RedisReply && rhs)
+{
+    freeReplyObject(m_pReply);
+    m_pReply = rhs.m_pReply;
+    rhs.m_pReply = nullptr;
+
+    return *this;
+}
+
 int RedisReply::AsInt() const
 {
 	return m_pReply->integer;

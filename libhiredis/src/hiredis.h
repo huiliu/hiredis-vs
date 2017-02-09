@@ -44,7 +44,7 @@ extern "C" {
 #else
 #include <WinSock2.h>/* for struct timeval */
 #include <WS2tcpip.h> //getaddrinfo
-#endif // !WIN32
+#endif // !_MSC_VER
 
 #include <stdint.h> /* uintXX_t, etc */
 #include "sds.h" /* for sds */

@@ -6,6 +6,7 @@
 #include "../libhiredis/RedisClient.h"
 #include "../libhiredis/RedisReply.h"
 #include "../libhiredis/RedisCommand.h"
+#include "../libhiredis/RedisClientManager.h"
 #include <iostream>
 // Link with ws2_32.lib
 #pragma comment(lib, "Ws2_32.lib")
@@ -98,16 +99,18 @@ void case01(const char* host, int port)
 
 void case02(const char* host, int port, struct timeval tv)
 {
-	RedisClient client;
+    RedisClientManager ClientMgr;
+	RedisReply  reply(nullptr);
 
-	client.Connect(host, port, tv);
-	RedisReply reply = client.Get("name");
+    ConnectNo client = ClientMgr.CreateClient(host, port, 1000);
+    std::cout << "ping : " << ClientMgr.FindClient(client)->Ping() << std::endl;
+	reply = ClientMgr.FindClient(client)->Get("name");
 	std::cout << reply.AsString() << std::endl;
 }
 
 int main(int argc, char **argv) {
-	// const char *hostname = (argc > 1) ? argv[1] : "192.168.0.105";
-    const char *hostname = (argc > 1) ? argv[1] : "127.0.0.1";
+	const char *hostname = (argc > 1) ? argv[1] : "192.168.0.105";
+    // const char *hostname = (argc > 1) ? argv[1] : "127.0.0.1";
     int port = (argc > 2) ? atoi(argv[2]) : 6379;
     struct timeval timeout = { 1, 500000 }; // 1.5 seconds
 

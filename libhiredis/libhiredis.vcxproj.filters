@@ -41,6 +41,9 @@
     <ClCompile Include="RedisReply.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="RedisClientManager.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\async.h">
@@ -74,6 +77,12 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="RedisReply.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="RedisClientManager.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="common_type.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
